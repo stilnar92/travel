@@ -73,12 +73,30 @@ supabase status        # Show local credentials
 
 ```
 src/
-├── app/           # Routes (page, actions, data, logic)
+├── app/
+│   ├── (protected)/           # Auth-required routes
+│   │   ├── layout.tsx         # Sidebar layout
+│   │   ├── categories/
+│   │   │   ├── page.tsx       # UI rendering
+│   │   │   ├── actions.ts     # Server Actions
+│   │   │   ├── data.ts        # Repository calls
+│   │   │   ├── logic.ts       # Zod schemas
+│   │   │   └── ui/            # Client components
+│   │   └── vendors/
+│   │       ├── page.tsx
+│   │       ├── new/page.tsx
+│   │       ├── [id]/edit/page.tsx
+│   │       ├── actions.ts
+│   │       ├── data.ts
+│   │       ├── logic.ts
+│   │       └── ui/
+│   └── (public)/              # No auth required
+│       └── login/
 ├── shared/
-│   ├── adapters/  # Supabase client + repositories
-│   ├── features/  # Business logic (auth)
-│   ├── lib/       # Utils, routes, errors
-│   └── ui/        # Reusable components
+│   ├── adapters/              # Supabase client + repositories
+│   ├── features/              # Business logic (auth)
+│   ├── lib/                   # Utils, routes, errors
+│   └── ui/                    # Reusable components
 ```
 
 ## Architecture Principles
