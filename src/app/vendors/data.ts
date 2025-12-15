@@ -1,8 +1,12 @@
-import { getVendors, getVendorById } from "@/shared/adapters/supabase/repositories/vendors.server";
+import {
+  getVendors,
+  getVendorById,
+  type VendorFilters,
+} from "@/shared/adapters/supabase/repositories/vendors.server";
 import { getCategories } from "@/shared/adapters/supabase/repositories/categories.server";
 
-export async function fetchVendors() {
-  return getVendors();
+export async function fetchVendors(filters?: VendorFilters) {
+  return getVendors(filters);
 }
 
 export async function fetchVendorById(id: string) {
@@ -12,3 +16,5 @@ export async function fetchVendorById(id: string) {
 export async function fetchCategories() {
   return getCategories();
 }
+
+export type { VendorFilters };

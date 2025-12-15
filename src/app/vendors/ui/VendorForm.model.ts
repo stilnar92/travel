@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createVendorAction, updateVendorAction } from "../actions";
 import { vendorSchema, type VendorFormData } from "../logic";
+import { routes } from "@/shared/lib/routes";
 import type { Vendor } from "@/shared/adapters/supabase/repositories/vendors.server";
 
 interface UseVendorFormOptions {
@@ -39,14 +40,14 @@ export function useVendorFormModel({ vendor }: UseVendorFormOptions = {}) {
       : await createVendorAction(formData);
 
     if (result.success) {
-      router.push("/vendors");
+      router.push(routes.vendors.list);
     } else {
       setServerError(result.error);
     }
   };
 
   const handleCancel = () => {
-    router.push("/vendors");
+    router.push(routes.vendors.list);
   };
 
   return {

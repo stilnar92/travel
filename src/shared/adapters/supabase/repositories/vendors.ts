@@ -18,8 +18,16 @@ export type VendorUpdateInput = VendorUpdate & {
   categoryIds?: string[];
 };
 
-export async function getVendors(client: SupabaseClient<Database>) {
-  const { data, error } = await client
+export interface VendorFilters {
+  city?: string;
+  categoryId?: string;
+}
+
+export async function getVendors(
+  client: SupabaseClient<Database>,
+  filters?: VendorFilters
+) {
+  let query = client
     .from("vendors")
     .select(`
       *,
@@ -29,12 +37,28 @@ export async function getVendors(client: SupabaseClient<Database>) {
     `)
     .order("name");
 
+  // Filter by city (case-insensitive partial match)
+  if (filters?.city) {
+    query = query.ilike("city", `%${filters.city}%`);
+  }
+
+  const { data, error } = await query;
+
   if (error) throw error;
 
-  return data.map((vendor) => ({
+  let vendors = data.map((vendor) => ({
     ...vendor,
     categories: vendor.vendor_categories.map((vc) => vc.categories).filter(Boolean) as Category[],
   }));
+
+  // Filter by category (done in JS since it's a many-to-many relation)
+  if (filters?.categoryId) {
+    vendors = vendors.filter((vendor) =>
+      vendor.categories.some((cat) => cat.id === filters.categoryId)
+    );
+  }
+
+  return vendors;
 }
 
 export async function getVendorById(

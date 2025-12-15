@@ -7,11 +7,12 @@ import {
   deleteVendor as _deleteVendor,
   type VendorCreateInput,
   type VendorUpdateInput,
+  type VendorFilters,
 } from "./vendors";
 
-export async function getVendors() {
+export async function getVendors(filters?: VendorFilters) {
   const client = await createServerSupabaseClient();
-  return _getVendors(client);
+  return _getVendors(client, filters);
 }
 
 export async function getVendorById(id: string) {
@@ -34,4 +35,4 @@ export async function deleteVendor(id: string) {
   return _deleteVendor(client, id);
 }
 
-export type { Vendor, VendorCreateInput, VendorUpdateInput } from "./vendors";
+export type { Vendor, VendorCreateInput, VendorUpdateInput, VendorFilters } from "./vendors";
