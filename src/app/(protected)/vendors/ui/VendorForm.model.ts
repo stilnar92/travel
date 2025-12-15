@@ -57,6 +57,9 @@ export function useVendorFormModel({ vendor }: UseVendorFormOptions = {}) {
     isSubmitting: form.formState.isSubmitting,
     errors: form.formState.errors,
     register: form.register,
+    control: form.control,
+    watch: form.watch,
+    setValue: form.setValue,
     handleSubmit: form.handleSubmit(onSubmit),
     handleCancel,
   };

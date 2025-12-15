@@ -45,16 +45,20 @@ function VendorCityField({ register }: VendorCityFieldProps) {
 
 interface VendorCategoriesCheckboxesProps {
   categories: Category[];
-  register: UseFormRegister<VendorFormData>;
+  selectedIds: string[];
+  onToggle: (categoryId: string, checked: boolean) => void;
 }
 
-function VendorCategoriesCheckboxes({ categories, register }: VendorCategoriesCheckboxesProps) {
+function VendorCategoriesCheckboxes({ categories, selectedIds, onToggle }: VendorCategoriesCheckboxesProps) {
   return (
     <Stack gap="xs">
       {categories.map((category) => (
         <Label key={category.id} className="cursor-pointer">
           <Stack direction="row" gap="sm" align="center">
-            <Checkbox value={category.id} {...register("categoryIds")} />
+            <Checkbox
+              checked={selectedIds.includes(category.id)}
+              onCheckedChange={(checked) => onToggle(category.id, checked === true)}
+            />
             <Text>{category.name}</Text>
           </Stack>
         </Label>
@@ -76,9 +80,21 @@ export function VendorForm({ categories, vendor }: VendorFormProps) {
     isSubmitting,
     errors,
     register,
+    watch,
+    setValue,
     handleSubmit,
     handleCancel,
   } = useVendorFormModel({ vendor });
+
+  const selectedCategoryIds = watch("categoryIds");
+
+  const handleCategoryToggle = (categoryId: string, checked: boolean) => {
+    const current = selectedCategoryIds || [];
+    const updated = checked
+      ? [...current, categoryId]
+      : current.filter((id) => id !== categoryId);
+    setValue("categoryIds", updated, { shouldValidate: true });
+  };
 
   return (
     <Card>
@@ -105,7 +121,11 @@ export function VendorForm({ categories, vendor }: VendorFormProps) {
 
             <Stack gap="xs">
               <Label>Categories</Label>
-              <VendorCategoriesCheckboxes categories={categories} register={register} />
+              <VendorCategoriesCheckboxes
+                categories={categories}
+                selectedIds={selectedCategoryIds}
+                onToggle={handleCategoryToggle}
+              />
               {errors.categoryIds && (
                 <Alert variant="error">{errors.categoryIds.message}</Alert>
               )}
