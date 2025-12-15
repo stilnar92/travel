@@ -16,4 +16,8 @@ export const routes = {
   categories: {
     list: "/categories",
   },
+
+  auth: {
+    login: "/login",
+  },
 } as const;

@@ -8,6 +8,7 @@ export const ErrorCode = {
   UNAUTHORIZED: "UNAUTHORIZED",
   FORBIDDEN: "FORBIDDEN",
   CONFLICT: "CONFLICT",
+  AUTH_ERROR: "AUTH_ERROR",
   UNKNOWN: "UNKNOWN",
 } as const;
 
@@ -23,6 +24,7 @@ const ERROR_MESSAGES: Record<ErrorCode, string> = {
   UNAUTHORIZED: "Authentication required",
   FORBIDDEN: "Access denied",
   CONFLICT: "Resource already exists",
+  AUTH_ERROR: "Authentication failed",
   UNKNOWN: "An unexpected error occurred",
 };
 
