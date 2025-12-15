@@ -27,6 +27,24 @@ export async function getVendors(
   client: SupabaseClient<Database>,
   filters?: VendorFilters
 ) {
+  // If filtering by category, first get vendor IDs that have this category
+  let vendorIdsWithCategory: string[] | null = null;
+  if (filters?.categoryId) {
+    const { data: vendorCategories, error: vcError } = await client
+      .from("vendor_categories")
+      .select("vendor_id")
+      .eq("category_id", filters.categoryId);
+
+    if (vcError) throw vcError;
+
+    vendorIdsWithCategory = vendorCategories.map((vc) => vc.vendor_id);
+
+    // Early return if no vendors have this category
+    if (vendorIdsWithCategory.length === 0) {
+      return [];
+    }
+  }
+
   let query = client
     .from("vendors")
     .select(`
@@ -37,6 +55,11 @@ export async function getVendors(
     `)
     .order("name");
 
+  // Filter by vendor IDs (from category filter)
+  if (vendorIdsWithCategory) {
+    query = query.in("id", vendorIdsWithCategory);
+  }
+
   // Filter by city (case-insensitive partial match)
   if (filters?.city) {
     query = query.ilike("city", `%${filters.city}%`);
@@ -46,19 +69,10 @@ export async function getVendors(
 
   if (error) throw error;
 
-  let vendors = data.map((vendor) => ({
+  return data.map((vendor) => ({
     ...vendor,
     categories: vendor.vendor_categories.map((vc) => vc.categories).filter(Boolean) as Category[],
   }));
-
-  // Filter by category (done in JS since it's a many-to-many relation)
-  if (filters?.categoryId) {
-    vendors = vendors.filter((vendor) =>
-      vendor.categories.some((cat) => cat.id === filters.categoryId)
-    );
-  }
-
-  return vendors;
 }
 
 export async function getVendorById(
