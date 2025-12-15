@@ -1,30 +1,37 @@
-import { Button } from "@/shared/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/buttons/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/data-display/card";
+import { Badge } from "@/shared/ui/data-display/badge";
+import { Text } from "@/shared/ui/data-display/text";
+import { Stack } from "@/shared/ui/layout/stack";
+import { Grid } from "@/shared/ui/layout/grid";
 import { Plus } from "lucide-react";
 
 export default function VendorsPage() {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Vendors</h1>
+    <Stack gap="lg">
+      <Stack direction="row" justify="between" align="center">
+        <Text as="h1" size="3xl" weight="bold">
+          Vendors
+        </Text>
         <Button>
           <Plus className="h-4 w-4" />
           Add Vendor
         </Button>
-      </div>
+      </Stack>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Grid colsMd={2} colsLg={3}>
         <Card>
           <CardHeader>
             <CardTitle>The Ritz Paris</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground mb-3">Paris, France</p>
-            <div className="flex flex-wrap gap-2">
-              <Badge>Luxury Hotel</Badge>
-              <Badge variant="secondary">5 Star</Badge>
-            </div>
+            <Stack gap="sm">
+              <Text color="muted">Paris, France</Text>
+              <Stack direction="row" gap="xs" className="flex-wrap">
+                <Badge>Luxury Hotel</Badge>
+                <Badge variant="secondary">5 Star</Badge>
+              </Stack>
+            </Stack>
           </CardContent>
         </Card>
 
@@ -33,11 +40,13 @@ export default function VendorsPage() {
             <CardTitle>Tokyo Adventures</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground mb-3">Tokyo, Japan</p>
-            <div className="flex flex-wrap gap-2">
-              <Badge>Tour Operator</Badge>
-              <Badge variant="outline">Local Guide</Badge>
-            </div>
+            <Stack gap="sm">
+              <Text color="muted">Tokyo, Japan</Text>
+              <Stack direction="row" gap="xs" className="flex-wrap">
+                <Badge>Tour Operator</Badge>
+                <Badge variant="outline">Local Guide</Badge>
+              </Stack>
+            </Stack>
           </CardContent>
         </Card>
 
@@ -46,14 +55,16 @@ export default function VendorsPage() {
             <CardTitle>Alpine Express</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground mb-3">Zurich, Switzerland</p>
-            <div className="flex flex-wrap gap-2">
-              <Badge>Transportation</Badge>
-              <Badge variant="destructive">Premium</Badge>
-            </div>
+            <Stack gap="sm">
+              <Text color="muted">Zurich, Switzerland</Text>
+              <Stack direction="row" gap="xs" className="flex-wrap">
+                <Badge>Transportation</Badge>
+                <Badge variant="destructive">Premium</Badge>
+              </Stack>
+            </Stack>
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </Grid>
+    </Stack>
   );
 }
