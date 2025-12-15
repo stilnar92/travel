@@ -2,7 +2,13 @@
 
 import { tv } from "tailwind-variants";
 import { Input } from "@/shared/ui/forms/input";
-import { Select } from "@/shared/ui/forms/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/ui/forms/select";
 import { Label } from "@/shared/ui/forms/label";
 import { Button } from "@/shared/ui/buttons/button";
 import { Stack } from "@/shared/ui/layout/stack";
@@ -50,17 +56,18 @@ function VendorCategoryFilterSelect({
   categories,
 }: VendorCategoryFilterSelectProps) {
   return (
-    <Select
-      id="category-filter"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    >
-      <option value="">All categories</option>
-      {categories.map((category) => (
-        <option key={category.id} value={category.id}>
-          {category.name}
-        </option>
-      ))}
+    <Select value={value || "all"} onValueChange={(v) => onChange(v === "all" ? "" : v)}>
+      <SelectTrigger id="category-filter" className="w-full">
+        <SelectValue placeholder="All categories" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="all">All categories</SelectItem>
+        {categories.map((category) => (
+          <SelectItem key={category.id} value={category.id}>
+            {category.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
     </Select>
   );
 }
