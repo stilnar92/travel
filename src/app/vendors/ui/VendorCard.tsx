@@ -1,7 +1,11 @@
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/data-display/card";
 import { Badge } from "@/shared/ui/data-display/badge";
 import { Text } from "@/shared/ui/data-display/text";
 import { Stack } from "@/shared/ui/layout/stack";
+import { Button } from "@/shared/ui/buttons/button";
+import { Pencil } from "lucide-react";
+import { DeleteVendorButton } from "./DeleteVendorButton";
 import type { Vendor } from "@/shared/adapters/supabase/repositories/vendors.server";
 
 interface VendorCategoriesBadgesProps {
@@ -22,6 +26,24 @@ function VendorCategoriesBadges({ categories }: VendorCategoriesBadgesProps) {
   );
 }
 
+interface VendorCardActionsProps {
+  vendorId: string;
+  vendorName: string;
+}
+
+function VendorCardActions({ vendorId, vendorName }: VendorCardActionsProps) {
+  return (
+    <Stack direction="row" gap="xs">
+      <Button asChild size="icon-sm" variant="ghost" aria-label="Edit vendor">
+        <Link href={`/vendors/${vendorId}/edit`}>
+          <Pencil className="h-4 w-4" />
+        </Link>
+      </Button>
+      <DeleteVendorButton vendorId={vendorId} vendorName={vendorName} />
+    </Stack>
+  );
+}
+
 interface VendorCardProps {
   vendor: Vendor;
 }
@@ -30,7 +52,10 @@ export function VendorCard({ vendor }: VendorCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{vendor.name}</CardTitle>
+        <Stack direction="row" justify="between" align="start">
+          <CardTitle>{vendor.name}</CardTitle>
+          <VendorCardActions vendorId={vendor.id} vendorName={vendor.name} />
+        </Stack>
       </CardHeader>
       <CardContent>
         <Stack gap="sm">
