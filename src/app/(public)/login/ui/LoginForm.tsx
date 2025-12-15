@@ -8,7 +8,7 @@ import { Stack } from "@/shared/ui/layout/stack";
 import { Alert } from "@/shared/ui/feedback/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/data-display/card";
 import { useLoginFormModel } from "./LoginForm.model";
-import type { SignInFormData } from "../logic";
+import type { SignInFormData } from "@/shared/features/auth";
 
 interface EmailFieldProps {
   register: UseFormRegister<SignInFormData>;

@@ -3,8 +3,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInAction, signUpAction } from "../actions";
-import { signInSchema, signUpSchema, type SignInFormData, type SignUpFormData } from "../logic";
+import {
+  signInAction,
+  signUpAction,
+  signInSchema,
+  signUpSchema,
+  type SignInFormData,
+  type SignUpFormData,
+} from "@/shared/features/auth";
 
 type AuthMode = "signin" | "signup";
 

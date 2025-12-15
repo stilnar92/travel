@@ -5,7 +5,7 @@ import { createServerSupabaseClient } from "@/shared/adapters/supabase/client";
 import { ok, err, type ActionResult } from "@/shared/lib/action-result";
 import { ErrorCode } from "@/shared/lib/errors";
 import { routes } from "@/shared/lib/routes";
-import { signInSchema, signUpSchema } from "./logic";
+import { signInSchema, signUpSchema } from "./schemas";
 
 export async function signInAction(
   formData: FormData
