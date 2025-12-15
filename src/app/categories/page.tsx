@@ -1,5 +1,5 @@
 import { fetchCategories } from "./data";
-import { CategoriesList } from "./CategoriesList";
+import { CategoriesList } from "./ui/CategoriesList";
 import { Stack } from "@/shared/ui/layout/stack";
 import { Text } from "@/shared/ui/data-display/text";
 
