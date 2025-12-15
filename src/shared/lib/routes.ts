@@ -10,6 +10,7 @@ export const routes = {
     list: "/vendors",
     new: "/vendors/new",
     edit: (id: string) => `/vendors/${id}/edit`,
+    // TODO: Implement vendor detail page
     view: (id: string) => `/vendors/${id}`,
   },
 

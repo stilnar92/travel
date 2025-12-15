@@ -17,6 +17,8 @@ import { X } from "lucide-react";
 import { useVendorFiltersModel } from "./VendorFilters.model";
 import type { Category } from "@/shared/adapters/supabase/repositories/categories.server";
 
+const ALL_CATEGORIES_VALUE = "all";
+
 const clearButton = tv({
   base: "transition-opacity",
   variants: {
@@ -56,12 +58,12 @@ function VendorCategoryFilterSelect({
   categories,
 }: VendorCategoryFilterSelectProps) {
   return (
-    <Select value={value || "all"} onValueChange={(v) => onChange(v === "all" ? "" : v)}>
+    <Select value={value || ALL_CATEGORIES_VALUE} onValueChange={(v) => onChange(v === ALL_CATEGORIES_VALUE ? "" : v)}>
       <SelectTrigger id="category-filter" className="w-full">
         <SelectValue placeholder="All categories" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All categories</SelectItem>
+        <SelectItem value={ALL_CATEGORIES_VALUE}>All categories</SelectItem>
         {categories.map((category) => (
           <SelectItem key={category.id} value={category.id}>
             {category.name}

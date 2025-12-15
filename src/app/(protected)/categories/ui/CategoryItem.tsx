@@ -6,6 +6,15 @@ import { Input } from "@/shared/ui/forms/input";
 import { Stack } from "@/shared/ui/layout/stack";
 import { Alert } from "@/shared/ui/feedback/alert";
 import { Text } from "@/shared/ui/data-display/text";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/ui/overlay/dialog";
 import { Pencil, Trash2, Check, X } from "lucide-react";
 import { useCategoryItemModel } from "./CategoryItem.model";
 import type { CategoryFormData } from "../logic";
@@ -43,7 +52,11 @@ export function CategoryItem({ category }: CategoryItemProps) {
     handleSubmit,
     handleEdit,
     handleCancel,
-    handleDelete,
+    isDeleteDialogOpen,
+    isDeleting,
+    handleDeleteConfirm,
+    handleDeleteCancel,
+    setIsDeleteDialogOpen,
   } = useCategoryItemModel({ category });
 
   if (isEditing) {
@@ -95,14 +108,36 @@ export function CategoryItem({ category }: CategoryItemProps) {
             >
               <Pencil className="h-4 w-4" />
             </Button>
-            <Button
-              size="icon-sm"
-              variant="ghost"
-              onClick={handleDelete}
-              aria-label="Delete category"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
+            <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  size="icon-sm"
+                  variant="ghost"
+                  aria-label="Delete category"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Delete Category</DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to delete <Text as="span" weight="semibold">{category.name}</Text>? This action cannot be undone.
+                  </DialogDescription>
+                </DialogHeader>
+
+                {serverError && <Alert variant="error">{serverError}</Alert>}
+
+                <DialogFooter>
+                  <Button variant="outline" onClick={handleDeleteCancel} disabled={isDeleting}>
+                    Cancel
+                  </Button>
+                  <Button variant="destructive" onClick={handleDeleteConfirm} disabled={isDeleting}>
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </Stack>
         </Stack>
       </Stack>

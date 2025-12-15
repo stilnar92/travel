@@ -1,6 +1,7 @@
 "use client";
+/* eslint-disable react-hooks/refs -- Hook implementation intentionally uses refs in callbacks */
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 /**
  * Returns a debounced callback that delays execution until after
@@ -59,7 +60,14 @@ export function useDebouncedCallback<T extends (...args: never[]) => unknown>(
     }
   }, []);
 
-  return Object.assign(debouncedCallback, { cancel, flush });
+  return useMemo(
+    () =>
+      Object.assign(
+        (...args: Parameters<T>) => debouncedCallback(...args),
+        { cancel, flush }
+      ),
+    [debouncedCallback, cancel, flush]
+  );
 }
 
 /**

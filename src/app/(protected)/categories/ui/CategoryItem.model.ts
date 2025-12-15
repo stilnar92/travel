@@ -14,6 +14,8 @@ interface UseCategoryItemModelOptions {
 export function useCategoryItemModel({ category }: UseCategoryItemModelOptions) {
   const [isEditing, setIsEditing] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const form = useForm<CategoryFormData>({
     resolver: zodResolver(categorySchema),
@@ -43,13 +45,29 @@ export function useCategoryItemModel({ category }: UseCategoryItemModelOptions) 
     setIsEditing(false);
   };
 
-  const handleDelete = async () => {
-    if (confirm("Are you sure you want to delete this category?")) {
-      const result = await deleteCategoryAction(category.id);
-      if (!result.success) {
-        setServerError(result.error);
-      }
+  const handleDeleteClick = () => {
+    setIsDeleteDialogOpen(true);
+    setServerError(null);
+  };
+
+  const handleDeleteConfirm = async () => {
+    setIsDeleting(true);
+    setServerError(null);
+
+    const result = await deleteCategoryAction(category.id);
+
+    if (result.success) {
+      setIsDeleteDialogOpen(false);
+    } else {
+      setServerError(result.error);
     }
+
+    setIsDeleting(false);
+  };
+
+  const handleDeleteCancel = () => {
+    setIsDeleteDialogOpen(false);
+    setServerError(null);
   };
 
   return {
@@ -61,6 +79,11 @@ export function useCategoryItemModel({ category }: UseCategoryItemModelOptions) 
     handleSubmit: form.handleSubmit(onSubmit),
     handleEdit,
     handleCancel,
-    handleDelete,
+    isDeleteDialogOpen,
+    isDeleting,
+    handleDeleteClick,
+    handleDeleteConfirm,
+    handleDeleteCancel,
+    setIsDeleteDialogOpen,
   };
 }

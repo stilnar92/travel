@@ -6,6 +6,7 @@ import { Stack } from "@/shared/ui/layout/stack";
 import { Button } from "@/shared/ui/buttons/button";
 import { Pencil } from "lucide-react";
 import { DeleteVendorButton } from "./DeleteVendorButton";
+import { routes } from "@/shared/lib/routes";
 import type { Vendor } from "@/shared/adapters/supabase/repositories/vendors.server";
 
 interface VendorCategoriesBadgesProps {
@@ -35,7 +36,7 @@ function VendorCardActions({ vendorId, vendorName }: VendorCardActionsProps) {
   return (
     <Stack direction="row" gap="xs">
       <Button asChild size="icon-sm" variant="ghost" aria-label="Edit vendor">
-        <Link href={`/vendors/${vendorId}/edit`}>
+        <Link href={routes.vendors.edit(vendorId)}>
           <Pencil className="h-4 w-4" />
         </Link>
       </Button>

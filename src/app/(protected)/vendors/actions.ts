@@ -14,9 +14,13 @@ import { vendorSchema } from "./logic";
 export async function createVendorAction(
   formData: FormData
 ): Promise<ActionResult<Vendor>> {
-  const name = formData.get("name") as string;
-  const city = formData.get("city") as string;
-  const categoryIds = formData.getAll("categoryIds") as string[];
+  const name = formData.get("name");
+  const city = formData.get("city");
+  const categoryIds = formData.getAll("categoryIds");
+
+  if (typeof name !== "string" || typeof city !== "string") {
+    return err("Invalid form data", ErrorCode.VALIDATION_ERROR);
+  }
 
   const result = vendorSchema.safeParse({ name, city, categoryIds });
   if (!result.success) {
@@ -40,9 +44,13 @@ export async function updateVendorAction(
   id: string,
   formData: FormData
 ): Promise<ActionResult<Vendor>> {
-  const name = formData.get("name") as string;
-  const city = formData.get("city") as string;
-  const categoryIds = formData.getAll("categoryIds") as string[];
+  const name = formData.get("name");
+  const city = formData.get("city");
+  const categoryIds = formData.getAll("categoryIds");
+
+  if (typeof name !== "string" || typeof city !== "string") {
+    return err("Invalid form data", ErrorCode.VALIDATION_ERROR);
+  }
 
   const result = vendorSchema.safeParse({ name, city, categoryIds });
   if (!result.success) {
