@@ -33,7 +33,7 @@ export async function signInAction(
     return err(error.message, ErrorCode.AUTH_ERROR);
   }
 
-  redirect(routes.vendors.list);
+  redirect(routes.vendors.$root());
 }
 
 export async function signUpAction(
@@ -62,11 +62,11 @@ export async function signUpAction(
     return err(error.message, ErrorCode.AUTH_ERROR);
   }
 
-  redirect(routes.vendors.list);
+  redirect(routes.vendors.$root());
 }
 
 export async function signOutAction(): Promise<void> {
   const supabase = await createServerSupabaseClient();
   await supabase.auth.signOut();
-  redirect(routes.auth.login);
+  redirect(routes.login());
 }

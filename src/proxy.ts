@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { routes } from "@/shared/lib/routes";
 
-const publicPaths = [routes.auth.login];
+const publicPaths = [routes.login()];
 
 function isPublicPath(pathname: string): boolean {
   return publicPaths.some((path) => pathname.startsWith(path));
@@ -46,13 +46,13 @@ export async function proxy(request: NextRequest) {
 
   // Redirect unauthenticated users to login
   if (!user && !isPublicPath(pathname)) {
-    const loginUrl = new URL(routes.auth.login, request.url);
+    const loginUrl = new URL(routes.login(), request.url);
     return NextResponse.redirect(loginUrl);
   }
 
   // Redirect authenticated users away from login
-  if (user && pathname === routes.auth.login) {
-    const vendorsUrl = new URL(routes.vendors.list, request.url);
+  if (user && pathname === routes.login()) {
+    const vendorsUrl = new URL(routes.vendors.$root(), request.url);
     return NextResponse.redirect(vendorsUrl);
   }
 

@@ -33,7 +33,7 @@ export default async function VendorsPage({ searchParams }: VendorsPageProps) {
           Vendors
         </Text>
         <Button asChild>
-          <Link href={routes.vendors.new}>
+          <Link href={routes.vendors.new()}>
             <Plus className="h-4 w-4" />
             Add Vendor
           </Link>

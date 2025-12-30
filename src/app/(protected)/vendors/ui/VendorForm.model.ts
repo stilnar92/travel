@@ -40,14 +40,14 @@ export function useVendorFormModel({ vendor }: UseVendorFormOptions = {}) {
       : await createVendorAction(formData);
 
     if (result.success) {
-      router.push(routes.vendors.list);
+      router.push(routes.vendors.$root());
     } else {
       setServerError(result.error);
     }
   };
 
   const handleCancel = () => {
-    router.push(routes.vendors.list);
+    router.push(routes.vendors.$root());
   };
 
   return {

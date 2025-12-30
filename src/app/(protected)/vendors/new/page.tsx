@@ -14,7 +14,7 @@ export default async function NewVendorPage() {
     <Stack gap="lg">
       <Stack direction="row" gap="sm" align="center">
         <Button asChild variant="ghost" size="icon">
-          <Link href={routes.vendors.list}>
+          <Link href={routes.vendors.$root()}>
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>

@@ -40,11 +40,11 @@ export default function ProtectedLayout({
           </Text>
           <nav className="flex-1">
             <Stack gap="xs">
-              <Link href={routes.vendors.list} className={navLink()}>
+              <Link href={routes.vendors.$root()} className={navLink()}>
                 <Building2 className="h-4 w-4" />
                 Vendors
               </Link>
-              <Link href={routes.categories.list} className={navLink()}>
+              <Link href={routes.categories()} className={navLink()}>
                 <Tags className="h-4 w-4" />
                 Categories
               </Link>

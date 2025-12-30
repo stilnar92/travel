@@ -36,7 +36,7 @@ function VendorCardActions({ vendorId, vendorName }: VendorCardActionsProps) {
   return (
     <Stack direction="row" gap="xs">
       <Button asChild size="icon-sm" variant="ghost" aria-label="Edit vendor">
-        <Link href={routes.vendors.edit(vendorId)}>
+        <Link href={routes.vendors.$id(vendorId).edit()}>
           <Pencil className="h-4 w-4" />
         </Link>
       </Button>
